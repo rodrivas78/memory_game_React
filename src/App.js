@@ -9,36 +9,38 @@ function Square(props) {
   );
 }
 
+let cards = [1,2,3,4,1,2,3,4];   
+const shuffledCards = cards.sort(() => Math.random() - 0.5);
+
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       result: [],
-      squares: Array(8),      
-      hidenSquares: [1,4,3,4,2,3,2,1],       
+      squares: Array(8),            
       count: 1,
-      clickable: true,
+      clickable: true,     
     };
   }
   
-  handleClick(i) {
+  handleClick(i) {    
    
     this.setState(state => ({
        count: state.count + 1
       }));   
               
-    var squares = this.state.squares.slice();     
-   var result = this.state.result.slice();  
-    var clickabol = this.state.clickabol;            
-  
+    var squares = this.state.squares.slice();    
+    var result = this.state.result.slice();  
+   var clickabol = this.state.clickabol;     
+      
     if (calculateScore(this.state.result)) {
       return;
     }              
         
-    clickabol = (this.state.count > 2) ? false : true;
+    clickabol = (this.state.count > 2) ? false : true;    
          
   if(clickabol) {    
-   squares[i] = this.state.hidenSquares[i]; 
+   squares[i] = shuffledCards[i]; 
   }                   
   
     if(this.state.count >= 2 ) {           
@@ -108,9 +110,11 @@ class Board extends React.Component {
   render() {
     const finish = calculateScore(this.state.result);
     let status;
+    let message;
     if (finish) {
     //  status = 'Score: ' + winner;
     status = ' Congratulations!!'
+    message = 'Press F5 to play again.'
     } else {
       status = ' Test your memory' ;
     }
@@ -130,7 +134,9 @@ class Board extends React.Component {
           {this.renderSquare(5)}
           {this.renderSquare(6)}
           {this.renderSquare(7)}
-        </div>               
+        </div>   
+        <p></p>
+        <div className="message">{message}</div>            
       </div>
     );
   }
